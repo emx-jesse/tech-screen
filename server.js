@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const PORT = process.env.PORT;
+const solver = require('./solver');
 
 app.use(morgan('short'));
 
@@ -31,8 +32,8 @@ app.use('/', (req, res) => {
   } else if (query === 'Years') {
     response = process.env.YEARS;
   } else if (query === 'Puzzle') {
-    const puzzle = req.query.d;
-    const rows = puzzle.split('\n');
+    const q = req.query.d.split('\n');
+    response = solver(q.slice(2, 6));
   }
 
   res.send(response);
